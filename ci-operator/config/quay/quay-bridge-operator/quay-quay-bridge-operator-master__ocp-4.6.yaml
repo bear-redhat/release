@@ -1,6 +1,6 @@
 base_images:
   cli:
-    name: "4.6"
+    name: '4.6'
     namespace: ocp
     tag: cli
   openshift-release-golang-1.15:
@@ -10,7 +10,7 @@ base_images:
   ubi:
     name: ubi
     namespace: ocp
-    tag: "8"
+    tag: '8'
 build_root:
   image_stream_tag:
     name: release
@@ -45,7 +45,7 @@ operator:
 releases:
   latest:
     integration:
-      name: "4.6"
+      name: '4.6'
       namespace: ocp
 resources:
   '*':
@@ -86,7 +86,7 @@ tests:
           memory: 200Mi
     workflow: optional-operators-ci-aws
 - as: nightly-quay-3-7-unstable-e2e
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws
     dependencies:

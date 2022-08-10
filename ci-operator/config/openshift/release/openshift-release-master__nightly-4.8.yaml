@@ -1,6 +1,6 @@
 base_images:
   ansible:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: ansible
   assisted-test-infra:
@@ -8,19 +8,19 @@ base_images:
     namespace: edge-infrastructure
     tag: assisted-test-infra
   aws-ebs-csi-driver-operator-test:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: aws-ebs-csi-driver-operator-test
   azure-disk-csi-driver-operator-test:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: azure-disk-csi-driver-operator-test
   base:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: base
   console-tests:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: console-tests
   dev-scripts:
@@ -28,23 +28,23 @@ base_images:
     namespace: ocp-kni
     tag: dev-scripts
   driver-toolkit-tests:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: driver-toolkit-tests
   gcp-pd-csi-driver-operator-test:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: gcp-pd-csi-driver-operator-test
   libvirt-installer:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: libvirt-installer
   upi-installer:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: upi-installer
   vsphere-csi-driver-operator-test:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: vsphere-csi-driver-operator-test
 releases:
@@ -53,12 +53,12 @@ releases:
       product: ocp
       relative: 1
       stream: nightly
-      version: "4.8"
+      version: '4.8'
   latest:
     candidate:
       product: ocp
       stream: nightly
-      version: "4.8"
+      version: '4.8'
   oldest-supported-credentials-request:
     release:
       channel: fast
@@ -74,24 +74,24 @@ resources:
       memory: 200Mi
 tests:
 - as: e2e-aws-single-node
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-single-node
 - as: e2e-metal-single-node-live-iso
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: packet-sno
     workflow: baremetalds-sno
 - as: e2e-metal-ipi
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-ipv4
 - as: e2e-metal-ipi-serial-ipv4
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-serial-ipv4
@@ -103,7 +103,7 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: baremetalds-e2e-upgrade
 - as: e2e-metal-ipi-ovn-ipv6
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-ovn-ipv6
@@ -113,7 +113,7 @@ tests:
     cluster_profile: equinix-ocp-metal
     workflow: baremetalds-e2e-ovn-dualstack
 - as: e2e-metal-ipi-ovn-dualstack-local-gateway
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: equinix-ocp-metal
     env:
@@ -142,12 +142,12 @@ tests:
     cluster_profile: aws
     workflow: openshift-e2e-aws-proxy
 - as: e2e-vsphere
-  cron: 0 21 * * *
+  cron: 0 21 */13 * *
   steps:
     cluster_profile: vsphere
     workflow: openshift-e2e-vsphere
 - as: e2e-aws-ovn-local-gateway
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -155,131 +155,131 @@ tests:
       GATEWAY_MODE: local
     workflow: openshift-e2e-aws-ovn
 - as: e2e-vsphere-ovn
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: vsphere
     workflow: openshift-e2e-vsphere-ovn
 - as: e2e-vsphere-serial
-  cron: 0 3 * * *
+  cron: 0 3 */13 * *
   steps:
     cluster_profile: vsphere
     workflow: openshift-e2e-vsphere-serial
 - as: e2e-vsphere-upi
-  cron: 0 9 * * *
+  cron: 0 9 */13 * *
   steps:
     cluster_profile: vsphere
     workflow: openshift-e2e-vsphere-upi
 - as: e2e-vsphere-upi-serial
-  cron: 0 15 * * *
+  cron: 0 15 */13 * *
   steps:
     cluster_profile: vsphere
     workflow: openshift-e2e-vsphere-upi-serial
 - as: e2e-vsphere-csi
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: vsphere
     workflow: openshift-e2e-vsphere-csi-techpreview
 - as: e2e-aws-workers-rhel7
-  cron: '@daily'
+  cron: '* * * */13 *'
   steps:
     cluster_profile: aws
     env:
-      PLATFORM_VERSION: "7.9"
+      PLATFORM_VERSION: '7.9'
     workflow: openshift-e2e-aws-workers-rhel
 - as: e2e-ovirt
-  cron: 0 7,19 * * *
+  cron: 0 7,19 */13 * *
   steps:
     cluster_profile: ovirt
     workflow: openshift-e2e-ovirt-conformance
 - as: e2e-ovirt-csi
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: ovirt
     workflow: openshift-e2e-ovirt-csi-release-4.8
 - as: e2e-gcp-libvirt-cert-rotation
-  cron: '@daily'
+  cron: '* * * */13 *'
   steps:
     cluster_profile: gcp
     workflow: openshift-e2e-gcp-libvirt-cert-rotation
 - as: e2e-azure-fips
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
-      FIPS_ENABLED: "true"
+      FIPS_ENABLED: 'true'
     pre:
     - chain: ipi-azure-pre
     - ref: fips-check
     workflow: openshift-e2e-azure
 - as: e2e-aws-fips
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
-      FIPS_ENABLED: "true"
+      FIPS_ENABLED: 'true'
     pre:
     - chain: ipi-aws-pre
     - ref: fips-check
     workflow: openshift-e2e-aws
 - as: e2e-gcp
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-e2e-gcp
 - as: e2e-gcp-fips
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     env:
-      FIPS_ENABLED: "true"
+      FIPS_ENABLED: 'true'
     pre:
     - chain: ipi-gcp-pre
     - ref: fips-check
     workflow: openshift-e2e-gcp
 - as: e2e-gcp-csi
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-e2e-gcp-csi
 - as: e2e-azure-fips-serial
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
-      FIPS_ENABLED: "true"
+      FIPS_ENABLED: 'true'
       TEST_SUITE: openshift/conformance/serial
     pre:
     - chain: ipi-azure-pre
     - ref: fips-check
     workflow: openshift-e2e-azure
 - as: e2e-aws-fips-serial
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
-      FIPS_ENABLED: "true"
+      FIPS_ENABLED: 'true'
       TEST_SUITE: openshift/conformance/serial
     pre:
     - chain: ipi-aws-pre
     - ref: fips-check
     workflow: openshift-e2e-aws
 - as: e2e-gcp-fips-serial
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     env:
-      FIPS_ENABLED: "true"
+      FIPS_ENABLED: 'true'
       TEST_SUITE: openshift/conformance/serial
     pre:
     - chain: ipi-gcp-pre
     - ref: fips-check
     workflow: openshift-e2e-gcp
 - as: console-aws
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -297,15 +297,15 @@ tests:
           memory: 200Mi
     workflow: ipi-aws
 - as: e2e-gcp-rt
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     env:
       COMPUTE_NODE_TYPE: n2-standard-8
-      RT_ENABLED: "true"
+      RT_ENABLED: 'true'
     workflow: openshift-e2e-gcp-realtime
 - as: e2e-aws-upgrade
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -313,14 +313,14 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-aws
 - as: credentials-request-freeze
-  interval: 48h
+  interval: 336h
   steps:
     dependencies:
       OPENSHIFT_FROZEN_RELEASE_IMAGE: release:oldest-supported-credentials-request
       OPENSHIFT_LATEST_RELEASE_IMAGE: release:latest
     workflow: openshift-credentials-request-freeze
 - as: e2e-aws-upgrade-rollback-oldest-supported
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     dependencies:
@@ -332,42 +332,42 @@ tests:
       TEST_UPGRADE_OPTIONS: abort-at=random
     workflow: openshift-upgrade-aws
 - as: e2e-aws
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws
 - as: e2e-aws-serial
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-serial
 - as: e2e-aws-csi
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-csi
 - as: e2e-aws-csi-migration
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-csi-migration
 - as: e2e-azure
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-e2e-azure
 - as: e2e-aws-driver-toolkit
-  cron: 0 */8 * * *
+  cron: 0 */8 */13 * *
   steps:
     cluster_profile: aws
     test:

@@ -1,6 +1,6 @@
 base_images:
   ansible-operator:
-    name: "4.8"
+    name: '4.8'
     namespace: ocp
     tag: ansible-operator
 build_root:
@@ -21,7 +21,7 @@ releases:
   latest:
     release:
       channel: stable
-      version: "4.7"
+      version: '4.7'
 resources:
   '*':
     limits:
@@ -51,7 +51,7 @@ tests:
           memory: 200Mi
     workflow: optional-operators-ci-aws
 - as: operator-e2e-periodic-slack
-  cron: 0 4 * * *
+  cron: 0 4 */13 * *
   steps:
     cluster_profile: aws
     dependencies:

@@ -4,12 +4,12 @@ releases:
       product: ocp
       relative: 1
       stream: ci
-      version: "4.9"
+      version: '4.9'
   latest:
     candidate:
       product: ocp
       stream: ci
-      version: "4.9"
+      version: '4.9'
 resources:
   '*':
     requests:
@@ -17,42 +17,42 @@ resources:
       memory: 200Mi
 tests:
 - as: e2e-aws
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws
 - as: e2e-aws-techpreview
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-techpreview
 - as: e2e-aws-ovn
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-ovn
 - as: e2e-aws-serial
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-serial
 - as: e2e-aws-techpreview-serial
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-techpreview-serial
 - as: e2e-aws-sdn-multitenant
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -60,7 +60,7 @@ tests:
     workflow: openshift-e2e-aws-sdn-multi
 - as: e2e-aws-upgrade
   cluster: build01
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -68,42 +68,42 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-aws
 - as: e2e-aws-cilium
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
     workflow: openshift-e2e-aws-cilium
 - as: e2e-azure
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-e2e-azure
 - as: e2e-azure-techpreview
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-e2e-azure-techpreview
 - as: e2e-azure-serial
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-e2e-azure-serial
 - as: e2e-azure-techpreview-serial
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-e2e-azure-techpreview-serial
 - as: e2e-azure-upgrade
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
@@ -111,49 +111,49 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-azure
 - as: e2e-azure-cilium
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-e2e-azure-cilium
 - as: e2e-azure-ovn
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-e2e-azure-ovn
 - as: e2e-gcp
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-e2e-gcp
 - as: e2e-gcp-ovn
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-e2e-gcp-ovn
 - as: e2e-gcp-serial
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-e2e-gcp-serial
 - as: e2e-gcp-upgrade
   cluster: build02
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     env:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-gcp
 - as: e2e-gcp-cilium
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-e2e-gcp-cilium
 - as: e2e-aws-upgrade-rollback
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -162,31 +162,31 @@ tests:
       TEST_UPGRADE_OPTIONS: abort-at=random
     workflow: openshift-upgrade-aws
 - as: e2e-aws-upgrade-ovn-single-node
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
-      TEST_SKIPS: ""
-      TEST_SUITE: ""
+      TEST_SKIPS: ''
+      TEST_SUITE: ''
       TEST_TYPE: upgrade
-      TEST_UPGRADE_OPTIONS: ""
+      TEST_UPGRADE_OPTIONS: ''
       TEST_UPGRADE_SUITE: none
     workflow: openshift-upgrade-aws-single-node
 - as: e2e-azure-upgrade-ovn-single-node
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
-      TEST_SKIPS: ""
-      TEST_SUITE: ""
+      TEST_SKIPS: ''
+      TEST_SUITE: ''
       TEST_TYPE: upgrade
-      TEST_UPGRADE_OPTIONS: ""
+      TEST_UPGRADE_OPTIONS: ''
       TEST_UPGRADE_SUITE: none
     workflow: openshift-upgrade-azure-single-node
 - as: e2e-network-migration
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws
     env:
@@ -198,7 +198,7 @@ tests:
     - ref: openshift-e2e-test
     workflow: openshift-e2e-aws
 - as: e2e-network-migration-rollback
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws
     env:

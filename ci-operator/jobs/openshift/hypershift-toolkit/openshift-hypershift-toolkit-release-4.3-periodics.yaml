@@ -6,7 +6,7 @@ periodics:
   - base_ref: release-4.3
     org: openshift
     repo: hypershift-toolkit
-  interval: 12h
+  interval: 336h
   name: openshift-hypershift-toolkit-release-4.3-create-cluster-periodics
   spec:
     containers:
@@ -21,7 +21,7 @@ periodics:
       - ci-operator
       image: ci-operator:latest
       imagePullPolicy: Always
-      name: ""
+      name: ''
       resources:
         requests:
           cpu: 10m

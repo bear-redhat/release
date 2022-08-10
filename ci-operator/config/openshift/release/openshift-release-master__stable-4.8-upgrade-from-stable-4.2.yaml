@@ -2,31 +2,31 @@ releases:
   four-five:
     release:
       channel: stable
-      version: "4.5"
+      version: '4.5'
   four-four:
     release:
       channel: stable
-      version: "4.4"
+      version: '4.4'
   four-seven:
     release:
       channel: stable
-      version: "4.7"
+      version: '4.7'
   four-six:
     release:
       channel: stable
-      version: "4.6"
+      version: '4.6'
   four-three:
     release:
       channel: stable
-      version: "4.3"
+      version: '4.3'
   initial:
     release:
       channel: stable
-      version: "4.2"
+      version: '4.2'
   latest:
     release:
       channel: stable
-      version: "4.8"
+      version: '4.8'
 resources:
   '*':
     requests:
@@ -34,12 +34,12 @@ resources:
       memory: 200Mi
 tests:
 - as: e2e-aws-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
-      TEST_UPGRADE_OPTIONS: ""
+      TEST_UPGRADE_OPTIONS: ''
       TEST_UPGRADE_SUITE: none
     test:
     - as: set-releases-release

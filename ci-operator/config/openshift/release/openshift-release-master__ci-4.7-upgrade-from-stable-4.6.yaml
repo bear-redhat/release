@@ -1,6 +1,6 @@
 base_images:
   upi-installer:
-    name: "4.6"
+    name: '4.6'
     namespace: ocp
     tag: upi-installer
 releases:
@@ -14,7 +14,7 @@ releases:
     candidate:
       product: ocp
       stream: ci
-      version: "4.7"
+      version: '4.7'
 resources:
   '*':
     requests:
@@ -22,7 +22,7 @@ resources:
       memory: 200Mi
 tests:
 - as: e2e-aws-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -30,14 +30,14 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-aws
 - as: e2e-gcp-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     env:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-gcp
 - as: e2e-azure-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
@@ -45,17 +45,17 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-azure
 - as: e2e-vsphere-upgrade
-  interval: 12h
+  interval: 336h
   steps:
     cluster_profile: vsphere
     workflow: openshift-upgrade-vsphere
 - as: e2e-ovirt-upgrade
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: ovirt
     workflow: openshift-upgrade-ovirt-release-4.6-4.7
 - as: e2e-aws-ovn-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -63,14 +63,14 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-aws-ovn
 - as: e2e-gcp-ovn-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     env:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-gcp-ovn
 - as: e2e-azure-ovn-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
@@ -78,7 +78,7 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-azure-ovn
 - as: e2e-aws-uwm
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:

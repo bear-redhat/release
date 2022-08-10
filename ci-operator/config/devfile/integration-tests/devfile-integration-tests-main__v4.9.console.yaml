@@ -16,17 +16,17 @@ promotion:
   additional_images:
     console-tests: src
   disabled: true
-  name: "4.9"
+  name: '4.9'
   namespace: ocp
 releases:
   initial:
     integration:
-      name: "4.9"
+      name: '4.9'
       namespace: ocp
   latest:
     integration:
       include_built_images: true
-      name: "4.9"
+      name: '4.9'
       namespace: ocp
 resources:
   '*':
@@ -35,11 +35,11 @@ resources:
       memory: 200Mi
   console:
     requests:
-      cpu: "1"
+      cpu: '1'
       memory: 8Gi
 tests:
 - as: e2e-gcp-console-periodic
-  cron: 0 2 * * *
+  cron: 0 2 */13 * *
   steps:
     cluster_profile: gcp
     test:

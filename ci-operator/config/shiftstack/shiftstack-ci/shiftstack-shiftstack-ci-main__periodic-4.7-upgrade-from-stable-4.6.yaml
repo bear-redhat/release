@@ -1,10 +1,10 @@
 base_images:
   openstack-installer:
-    name: "4.6"
+    name: '4.6'
     namespace: ocp
     tag: openstack-installer
   openstack-tests:
-    name: "4.7"
+    name: '4.7'
     namespace: ocp
     tag: openstack-tests
 releases:
@@ -18,7 +18,7 @@ releases:
     candidate:
       product: ocp
       stream: ci
-      version: "4.7"
+      version: '4.7'
 resources:
   '*':
     limits:
@@ -28,7 +28,7 @@ resources:
       memory: 200Mi
 tests:
 - as: e2e-openstack-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: openstack-vexxhost
     env:

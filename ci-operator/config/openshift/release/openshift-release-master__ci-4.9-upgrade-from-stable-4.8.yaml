@@ -1,18 +1,18 @@
 base_images:
   upi-installer:
-    name: "4.9"
+    name: '4.9'
     namespace: ocp
     tag: upi-installer
 releases:
   initial:
     release:
       channel: fast
-      version: "4.8"
+      version: '4.8'
   latest:
     candidate:
       product: ocp
       stream: ci
-      version: "4.9"
+      version: '4.9'
 resources:
   '*':
     requests:
@@ -20,7 +20,7 @@ resources:
       memory: 200Mi
 tests:
 - as: e2e-aws-upgrade
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -29,14 +29,14 @@ tests:
     workflow: openshift-upgrade-aws
 - as: e2e-gcp-upgrade
   cluster: build02
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     env:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-gcp
 - as: e2e-azure-upgrade
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
@@ -44,17 +44,17 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-azure
 - as: e2e-ovirt-upgrade
-  interval: 6h
+  interval: 336h
   steps:
     cluster_profile: ovirt
     workflow: openshift-upgrade-ovirt
 - as: e2e-vsphere-upgrade
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: vsphere
     workflow: openshift-upgrade-vsphere
 - as: e2e-aws-ovn-upgrade
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -63,14 +63,14 @@ tests:
     workflow: openshift-upgrade-aws-ovn
 - as: e2e-gcp-ovn-upgrade
   cluster: build02
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     env:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-gcp-ovn
 - as: e2e-azure-ovn-upgrade
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
@@ -78,7 +78,7 @@ tests:
       TEST_TYPE: upgrade-conformance
     workflow: openshift-upgrade-azure-ovn
 - as: e2e-aws-uwm
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
@@ -89,12 +89,12 @@ tests:
     - chain: ipi-aws-pre-stableinitial
     workflow: openshift-upgrade-aws
 - as: e2e-aws-upgrade-workload
-  interval: 24h
+  interval: 336h
   steps:
     cluster_profile: aws-2
     env:
       BASE_DOMAIN: aws-2.ci.openshift.org
-      EXTERNAL_MANIFESTS_POST_INSTALL: "true"
+      EXTERNAL_MANIFESTS_POST_INSTALL: 'true'
       EXTERNAL_MANIFESTS_SHA256_HASH: 6007d0022343793a2c40cc4862337eaf9d5e0f4bd8375578b762ee2a5eb298be
       EXTERNAL_MANIFESTS_URL: https://gist.githubusercontent.com/vrutkovs/1199226040a1942fdbcbe5fa76ab4467/raw/bfc5e67eef6df45f91af76df2a211fb839ebeda9/sample_workload.yaml
     pre:
@@ -103,7 +103,7 @@ tests:
     - ref: openshift-manifests-external
     workflow: openshift-upgrade-aws
 - as: e2e-aws-upgrade-infra
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: aws
     workflow: openshift-upgrade-aws-infra

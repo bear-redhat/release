@@ -4,12 +4,12 @@ releases:
       product: ocp
       relative: 1
       stream: ci
-      version: "4.6"
+      version: '4.6'
   latest:
     candidate:
       product: ocp
       stream: ci
-      version: "4.6"
+      version: '4.6'
 resources:
   '*':
     requests:
@@ -17,39 +17,39 @@ resources:
       memory: 200Mi
 tests:
 - as: e2e-aws-ovn
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws
     workflow: openshift-e2e-aws-ovn
 - as: e2e-gcp-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-upgrade-gcp
 - as: e2e-azure-upgrade
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-upgrade-azure
 - as: e2e-aws
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws
     workflow: openshift-e2e-aws
 - as: e2e-gcp
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-e2e-gcp
 - as: e2e-gcp-ovn
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: gcp-openshift-gce-devel-ci-2
     workflow: openshift-e2e-gcp-ovn
 - as: e2e-aws-upgrade-rollback
-  interval: 72h
+  interval: 336h
   steps:
     cluster_profile: aws
     env:
@@ -57,24 +57,24 @@ tests:
       TEST_UPGRADE_OPTIONS: abort-at=random
     workflow: openshift-upgrade-aws
 - as: e2e-aws-sdn-multitenant
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws
     workflow: openshift-e2e-aws-sdn-multi
 - as: e2e-aws-serial
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: aws
     workflow: openshift-e2e-aws-serial
 - as: e2e-azure
-  interval: 12h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:
       BASE_DOMAIN: ci2.azure.devcluster.openshift.com
     workflow: openshift-e2e-azure
 - as: e2e-azure-ovn
-  interval: 48h
+  interval: 336h
   steps:
     cluster_profile: azure-2
     env:

@@ -9,12 +9,12 @@ releases:
     candidate:
       product: ocp
       stream: nightly
-      version: "4.8"
+      version: '4.8'
   latest:
     candidate:
       product: ocp
       stream: nightly
-      version: "4.8"
+      version: '4.8'
 resources:
   '*':
     requests:
@@ -54,7 +54,7 @@ tests:
           cpu: 100m
     workflow: ipi-aws
 - as: validate-master-build
-  cron: 0 0 * * *
+  cron: 0 0 */13 * *
   steps:
     cluster_profile: aws
     post:
@@ -84,4 +84,4 @@ zz_generated_metadata:
   branch: master
   org: redhat-developer
   repo: service-binding-operator
-  variant: "4.8"
+  variant: '4.8'

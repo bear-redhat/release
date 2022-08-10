@@ -18,7 +18,7 @@ base_images:
   coreos-centos-stream8:
     name: stream8
     namespace: coreos
-    tag: "8"
+    tag: '8'
   dev-scripts:
     name: test
     namespace: ocp-kni
@@ -51,7 +51,7 @@ promotion:
 releases:
   latest:
     integration:
-      name: "4.9"
+      name: '4.9'
       namespace: ocp
 resources:
   '*':
@@ -63,7 +63,7 @@ test_binary_build_commands: |
   mkdir /.cache && chmod 775 -R /.cache ${GOPATH}
 tests:
 - as: mirror-nightly-image
-  cron: '@daily'
+  cron: '* * * */13 *'
   steps:
     dependencies:
       SOURCE_IMAGE_REF: assisted-installer
@@ -72,7 +72,7 @@ tests:
     test:
     - ref: assisted-baremetal-images-publish
 - as: mirror-nightly-image-controller
-  cron: '@daily'
+  cron: '* * * */13 *'
   steps:
     dependencies:
       SOURCE_IMAGE_REF: assisted-installer-controller
