@@ -37,7 +37,7 @@ spec:
                 iops: 0
                 kmsKey:
                   arn: ''
-                volumeSize: 500
+                volumeSize: 800
                 volumeType: gp3
           securityGroups:
             - filters:
@@ -65,7 +65,7 @@ metadata:
   namespace: openshift-machine-api
 spec:
   maxReplicas: 5
-  minReplicas: 3
+  minReplicas: 1
   scaleTargetRef:
     apiVersion: machine.openshift.io/v1beta1
     kind: MachineSet
@@ -110,7 +110,7 @@ spec:
                 iops: 0
                 kmsKey:
                   arn: ''
-                volumeSize: 500
+                volumeSize: 800
                 volumeType: gp3
           securityGroups:
             - filters:
@@ -138,7 +138,7 @@ metadata:
   namespace: openshift-machine-api
 spec:
   maxReplicas: 5
-  minReplicas: 3
+  minReplicas: 1
   scaleTargetRef:
     apiVersion: machine.openshift.io/v1beta1
     kind: MachineSet
@@ -183,7 +183,7 @@ spec:
                 iops: 0
                 kmsKey:
                   arn: ''
-                volumeSize: 500
+                volumeSize: 800
                 volumeType: gp3
           securityGroups:
             - filters:
@@ -211,7 +211,7 @@ metadata:
   namespace: openshift-machine-api
 spec:
   maxReplicas: 5
-  minReplicas: 3
+  minReplicas: 1
   scaleTargetRef:
     apiVersion: machine.openshift.io/v1beta1
     kind: MachineSet
