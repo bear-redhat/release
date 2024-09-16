@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hypershift-operator
+  namespace: openshift-gitops
+  finalizers: []
+spec:
+  destination:
+    name: hosted-mgmt
+    namespace: hypershift
+    server: ''
+  source:
+    path: clusters/hosted-mgmt/hypershift
+    repoURL: 'https://github.com/openshift/release'
+    targetRevision: master
+  sources: []
+  project: infra
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true

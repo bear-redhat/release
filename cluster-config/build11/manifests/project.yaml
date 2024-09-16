@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infra-build11
+spec:
+  destinations:
+  - name: build11
+    namespace: '*'
+  clusterResourceWhitelist:
+    - group: autoscaling.openshift.io
+      kind: ClusterAutoscaler
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+    - group: ""
+      kind: Namespace
+    - group: cert-manager.io  # cert mgr
+      kind: ClusterIssuer
+    - group: operator.openshift.io
+      kind: CertManager
+    - group: node.k8s.io  # ci-scheduling-operator
+      kind: RuntimeClass
+    - group: rbac.authorization.k8s.io  # ci-scheduling-operator
+      kind: ClusterRole
+    - group: admissionregistration.k8s.io  # ci-scheduling-operator
+      kind: MutatingWebhookConfiguration
+    - group: flows.netobserv.io # net-observ-operator
+      kind: FlowCollector
+    - group: operator.openshift.io  # day 1
+      kind: ImageContentSourcePolicy
+    - group: operator.openshift.io  # day 1
+      kind: DNS
+    - group: config.openshift.io  # day 1
+      kind: OAuth

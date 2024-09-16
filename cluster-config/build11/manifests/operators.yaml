@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: operators
+spec:
+  destination:
+    name: build11
+    namespace: ci
+  source:
+    path: cluster-config/build11/apps/operator
+    repoURL: 'https://github.com/bear-redhat/release'
+    targetRevision: issue/DPTP-4115
+  project: infra-build11
+  syncPolicy:
+    automated: {}
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true

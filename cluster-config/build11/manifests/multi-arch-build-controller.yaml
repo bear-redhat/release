@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: multi-arch-builder-controller
+spec:
+  destination:
+    name: build11
+    namespace: ci
+  source:
+    path: cluster-config/build11/apps/multi-arch-build-controller
+    repoURL: 'https://github.com/bear-redhat/release'
+    targetRevision: issue/DPTP-4115
+    directory:
+      recurse: true
+  project: infra-build11
+  syncPolicy:
+    automated: {}
+    #   prune: true
+    #   selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+      - PruneLast=true

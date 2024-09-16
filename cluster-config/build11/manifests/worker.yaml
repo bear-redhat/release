@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: worker
+spec:
+  destination:
+    name: build11
+    namespace: openshift-machine-api
+  source:
+    path: cluster-config/build11/apps/worker
+    repoURL: 'https://github.com/bear-redhat/release'
+    targetRevision: issue/DPTP-4115
+  project: infra-build11
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+      - PruneLast=true

@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hive-operator
+  namespace: openshift-gitops
+  finalizers: []
+spec:
+  destination:
+    name: hosted-mgmt
+    namespace: hive
+    server: ''
+  source:
+    path: clusters/hosted-mgmt/hive
+    repoURL: 'https://github.com/openshift/release'
+    targetRevision: master
+    directory:
+      recurse: true
+  sources: []
+  project: infra
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
