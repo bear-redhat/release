@@ -71,6 +71,12 @@ spec:
     kind: ThanosReceive
   - group: monitoring.thanos.io
     kind: ThanosRuler
+  - group: opentelemetry.io
+    kind: OpenTelemetryCollector
+  - group: tempo.grafana.com
+    kind: TempoStack
+  - group: loki.grafana.com
+    kind: LokiStack
   - group: observability.openshift.io
     kind: ClusterLogForwarder
   - group: operator.openshift.io

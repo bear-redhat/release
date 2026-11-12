@@ -1,0 +1,48 @@
+# Wires the Loki log store into the existing ci-monitoring Grafana.
+# Reads tenant "ci" through the LokiStack gateway over mTLS, presenting the client
+# cert from loki-ci-client-tls (CN=ci) via valuesFrom — same valuesFrom/secureJsonData
+# pattern as clusters/app.ci/ci-grafana/datasource/prometheus.yaml.
+# grafana-operator creates this datasource once loki-ci-client-tls exists; until the
+# secret is seeded the valuesFrom cannot resolve and the datasource stays absent.
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  labels:
+    ci.openshift.io/gitops-managed: 'true'
+  name: ci-logs
+  namespace: ci-monitoring
+spec:
+  valuesFrom:
+  - targetPath: secureJsonData.tlsClientCert
+    valueFrom:
+      secretKeyRef:
+        name: loki-ci-client-tls
+        key: client.crt
+  - targetPath: secureJsonData.tlsClientKey
+    valueFrom:
+      secretKeyRef:
+        name: loki-ci-client-tls
+        key: client.key
+  - targetPath: secureJsonData.tlsCACert
+    valueFrom:
+      secretKeyRef:
+        name: loki-ci-client-tls
+        key: ca.crt
+  datasource:
+    uid: ci-logs
+    name: ci-logs
+    access: proxy
+    editable: false
+    isDefault: false
+    type: loki
+    url: https://ci-logs-gateway-http.ci-monitoring.svc.cluster.local:8080/api/logs/v1/ci
+    jsonData:
+      tlsAuth: true
+      tlsAuthWithCACert: true
+    secureJsonData:
+      tlsClientCert: ${client.crt}
+      tlsClientKey: ${client.key}
+      tlsCACert: ${ca.crt}
+  instanceSelector:
+    matchLabels:
+      dashboards: "ci-monitoring"

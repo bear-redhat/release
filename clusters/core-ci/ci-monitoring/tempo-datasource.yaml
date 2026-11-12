@@ -1,0 +1,30 @@
+# Wires the Tempo trace store into the existing ci-monitoring Grafana.
+# Mirrors the thanos-query GrafanaDatasource (grafana.yaml) — same instanceSelector.
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  labels:
+    ci.openshift.io/gitops-managed: 'true'
+  name: ci-traces
+  namespace: ci-monitoring
+spec:
+  datasource:
+    uid: ci-traces
+    name: ci-traces
+    access: proxy
+    editable: false
+    isDefault: false
+    type: tempo
+    url: http://tempo-ci-traces-query-frontend.ci-monitoring.svc.cluster.local:3200
+    jsonData:
+      # Deep-link from a trace's span metrics back to the existing Thanos datasource.
+      tracesToMetrics:
+        datasourceUid: thanos-query
+      # Deep-link from a span to its logs in the ci-logs LokiStack.
+      tracesToLogsV2:
+        datasourceUid: ci-logs
+        spanStartTimeShift: "-1h"
+        spanEndTimeShift: "1h"
+  instanceSelector:
+    matchLabels:
+      dashboards: "ci-monitoring"

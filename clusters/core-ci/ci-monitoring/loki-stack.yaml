@@ -1,0 +1,67 @@
+# Grafana Loki (LokiStack) log store for the ci-monitoring receiver stack.
+# Backed by S3 via IRSA/STS (credentialMode: token); the bucket + IAM role are
+# provisioned out-of-band and surfaced through the GSM-synced Secret
+# `loki-object-storage` (see core-services/ci-secret-bootstrap/gsm-config.yaml,
+# keys: bucket, endpoint, region, role_arn).
+#
+# Unlike TempoStack, a LokiStack ALWAYS runs an authenticated multi-tenant gateway.
+# This uses a single static tenant "ci". The tenant authentication (mTLS CA) and the
+# client credentials used by the collector (write) and Grafana (read) are a follow-on
+# to wire — mint them via the same ci-secret-generator pattern as the thanos TLS certs
+# (core-services/ci-secret-generator/_config.yaml). Values below marked TODO must be
+# confirmed against the installed loki-operator CSV before merge.
+apiVersion: loki.grafana.com/v1
+kind: LokiStack
+metadata:
+  labels:
+    ci.openshift.io/gitops-managed: 'true'
+  name: ci-logs
+  namespace: ci-monitoring
+spec:
+  size: 1x.extra-small            # TODO: size for actual log volume (1x.small+ for prod)
+  storageClassName: gp3-csi       # TODO: confirm core-ci default StorageClass
+  storage:
+    schemas:
+    - version: v13
+      effectiveDate: "2024-10-01"
+    secret:
+      name: loki-object-storage
+      type: s3
+      credentialMode: token
+  tenants:
+    mode: static
+    authentication:
+    - tenantName: ci
+      tenantId: ci
+      # Tenant mTLS: clients present a cert signed by the CA in this ConfigMap.
+      # Create loki-ci-tenant-ca out-of-band (same style as secret-thanos-ca.sh
+      # creates the thanos-ca secret). The gateway maps a client cert's CN to the
+      # authorization "user" below, so mint the client cert with CN=ci.
+      mTLS:
+        caName: loki-ci-tenant-ca
+    authorization:
+      roles:
+      - name: ci-logs-write
+        permissions:
+        - write
+        resources:
+        - logs
+        tenants:
+        - ci
+      - name: ci-logs-read
+        permissions:
+        - read
+        resources:
+        - logs
+        tenants:
+        - ci
+      roleBindings:
+      # The "ci" client cert (CN=ci) in loki-ci-client-tls is presented by BOTH the
+      # collector (write) and the Grafana datasource (read); grant it both roles.
+      - name: ci-logs
+        roles:
+        - ci-logs-write
+        - ci-logs-read
+        subjects:
+        - kind: user
+          name: ci

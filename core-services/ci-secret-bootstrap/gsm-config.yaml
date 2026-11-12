@@ -15589,6 +15589,47 @@ bundles:
       - cluster: core-ci
         namespace: ci-monitoring
 
+  - name: tempo-object-storage
+    gsm_secrets:
+      - collection: test-platform-infra
+        group: ci-monitoring-tempo-object-storage
+        fields:
+          - bucket
+          - endpoint
+          - region
+          - role_arn
+    sync_to_cluster: true
+    targets:
+      - cluster: core-ci
+        namespace: ci-monitoring
+
+  - name: loki-object-storage
+    gsm_secrets:
+      - collection: test-platform-infra
+        group: ci-monitoring-loki-object-storage
+        fields:
+          - bucket
+          - endpoint
+          - region
+          - role_arn
+    sync_to_cluster: true
+    targets:
+      - cluster: core-ci
+        namespace: ci-monitoring
+
+  - name: loki-ci-client-tls
+    gsm_secrets:
+      - collection: test-platform-infra
+        group: ci-monitoring-loki-tenant-tls
+        fields:
+          - ca--dot--crt
+          - client--dot--crt
+          - client--dot--key
+    sync_to_cluster: true
+    targets:
+      - cluster: core-ci
+        namespace: ci-monitoring
+
   - name: build12-secret
     gsm_secrets:
       - collection: test-platform-infra

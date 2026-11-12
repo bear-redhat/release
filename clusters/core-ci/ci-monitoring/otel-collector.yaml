@@ -1,0 +1,85 @@
+# Central OpenTelemetry Collector for the ci-monitoring receiver stack.
+# Accepts OTLP (gRPC 4317 / HTTP 4318) and fans out:
+#   traces  -> Tempo (ci-traces) in-cluster
+#   metrics -> Thanos Receive, reusing the existing thanos-remote-write-tls client cert
+#              (same secret + external URL the prometheus-agent already uses)
+#   logs    -> Loki (ci-logs) gateway, tenant "ci", over mTLS (loki-ci-client-tls)
+# Idle until emitters exist. The traces + metrics pipelines are LIVE. The logs
+# pipeline is wired but left commented until the loki-ci-client-tls secret is seeded
+# and the loki-ci-tenant-ca ConfigMap exists (see loki-stack.yaml) — enabling it
+# before then would fail the collector (missing cert files).
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  labels:
+    ci.openshift.io/gitops-managed: 'true'
+  name: ci-otel
+  namespace: ci-monitoring
+spec:
+  mode: deployment
+  replicas: 2
+  volumes:
+  - name: thanos-tls
+    secret:
+      secretName: thanos-remote-write-tls
+  - name: loki-tls
+    secret:
+      secretName: loki-ci-client-tls
+      optional: true
+  volumeMounts:
+  - name: thanos-tls
+    mountPath: /etc/thanos/tls
+    readOnly: true
+  - name: loki-tls
+    mountPath: /etc/loki/tls
+    readOnly: true
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 80
+        spike_limit_percentage: 25
+      batch:
+        send_batch_size: 8192
+        timeout: 5s
+    exporters:
+      otlp/tempo:
+        endpoint: tempo-ci-traces-distributor.ci-monitoring.svc.cluster.local:4317
+        tls:
+          insecure: true
+      prometheusremotewrite/thanos:
+        endpoint: https://thanos-receive.core.ci.devcluster.openshift.com:19291/api/v1/receive
+        tls:
+          ca_file: /etc/thanos/tls/ca.crt
+          cert_file: /etc/thanos/tls/client.crt
+          key_file: /etc/thanos/tls/client.key
+      # Loki exporter is defined but UNUSED until the logs pipeline below is enabled,
+      # so the collector does not read these cert files until loki-ci-client-tls exists.
+      otlphttp/loki:
+        logs_endpoint: https://ci-logs-gateway-http.ci-monitoring.svc.cluster.local:8080/api/logs/v1/ci/otlp/v1/logs
+        tls:
+          ca_file: /etc/loki/tls/ca.crt
+          cert_file: /etc/loki/tls/client.crt
+          key_file: /etc/loki/tls/client.key
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [otlp/tempo]
+        metrics:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [prometheusremotewrite/thanos]
+        # Enable once loki-ci-client-tls is seeded + loki-ci-tenant-ca ConfigMap exists:
+        # logs:
+        #   receivers: [otlp]
+        #   processors: [memory_limiter, batch]
+        #   exporters: [otlphttp/loki]

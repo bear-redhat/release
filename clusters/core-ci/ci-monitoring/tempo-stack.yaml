@@ -1,0 +1,28 @@
+# Grafana Tempo trace store for the ci-monitoring receiver stack.
+# Backed by S3 via IRSA/STS (credentialMode: token) — the bucket + IAM role are
+# provisioned out-of-band and surfaced through the GSM-synced Secret
+# `tempo-object-storage` (see core-services/ci-secret-bootstrap/gsm-config.yaml).
+# The secret must contain keys: bucket, endpoint, region, role_arn.
+apiVersion: tempo.grafana.com/v1alpha1
+kind: TempoStack
+metadata:
+  labels:
+    ci.openshift.io/gitops-managed: 'true'
+  name: ci-traces
+  namespace: ci-monitoring
+spec:
+  storage:
+    secret:
+      name: tempo-object-storage
+      type: s3
+      credentialMode: token
+  storageSize: 10Gi
+  retention:
+    global:
+      traces: 48h0m0s
+  template:
+    gateway:
+      enabled: false
+    queryFrontend:
+      jaegerQuery:
+        enabled: true
